@@ -7,7 +7,7 @@ import unittest
 from flask_login import current_user
 
 from base import BaseTestCase
-from project.server import bcrypt
+from passlib.hash import pbkdf2_sha512
 from project.server.models import User
 from project.server.user.forms import LoginForm
 
@@ -82,8 +82,8 @@ class TestUserBlueprint(BaseTestCase):
         # Ensure given password is correct after unhashing.
         user = User.query.filter_by(email='ad@min.com').first()
         self.assertTrue(
-            bcrypt.check_password_hash(user.password, 'admin_user'))
-        self.assertFalse(bcrypt.check_password_hash(user.password, 'foobar'))
+            pbkdf2_sha512.verify('admin_user', user.password))
+        self.assertFalse(pbkdf2_sha512.verify('foobar', user.password))
 
     def test_validate_invalid_password(self):
         # Ensure user can't login when the pasword is incorrect.

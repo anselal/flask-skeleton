@@ -44,5 +44,8 @@ class User(db.Model):
     def password(self, password):
         self._password = pbkdf2_sha512.hash(password)
 
+    def is_password_valid(self, password):
+        return pbkdf2_sha512.verify(password, self.password)
+
     def __repr__(self):
         return '<User {0}>'.format(self.email)

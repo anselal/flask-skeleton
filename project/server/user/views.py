@@ -36,8 +36,7 @@ def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(
-                user.password, request.form['password']):
+        if user and user.is_password_valid(form.password.data):
             login_user(user)
             flash('You are logged in. Welcome!', 'success')
             return redirect(url_for('user.members'))
