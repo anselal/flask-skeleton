@@ -3,9 +3,9 @@
 
 import datetime
 
-from flask import current_app
+from passlib.hash import pbkdf2_sha512
 
-from project.server import db, bcrypt
+from project.server import db
 
 
 class User(db.Model):
@@ -14,17 +14,15 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
-    password = db.Column(db.String(255), nullable=False)
-    registered_on = db.Column(db.DateTime, nullable=False)
+    _password = db.Column('password', db.String(255), nullable=False)
+    registered_on = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now())
     admin = db.Column(db.Boolean, nullable=False, default=False)
 
-    def __init__(self, email, password, admin=False):
-        self.email = email
-        self.password = bcrypt.generate_password_hash(
-            password, current_app.config.get('BCRYPT_LOG_ROUNDS')
-        ).decode('utf-8')
-        self.registered_on = datetime.datetime.now()
-        self.admin = admin
+    def __init__(self, *args, **kwargs):
+        if kwargs:
+            for key, value in kwargs.items():
+                if hasattr(self, key):
+                    setattr(self, key, value)
 
     def is_authenticated(self):
         return True
@@ -37,6 +35,14 @@ class User(db.Model):
 
     def get_id(self):
         return self.id
+
+    @property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        self._password = pbkdf2_sha512.hash(password)
 
     def __repr__(self):
         return '<User {0}>'.format(self.email)
