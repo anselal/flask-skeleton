@@ -5,7 +5,7 @@ from flask import render_template, Blueprint, url_for, \
     redirect, flash, request
 from flask_login import login_user, logout_user, login_required
 
-from project.server import bcrypt, db
+from project.server import db
 from project.server.models import User
 from project.server.user.forms import LoginForm, RegisterForm
 
@@ -17,9 +17,7 @@ user_blueprint = Blueprint('user', __name__,)
 def register():
     form = RegisterForm(request.form)
     if form.validate_on_submit():
-        user = User(
-            **form.data
-        )
+        user = User(**form.data)
         db.session.add(user)
         db.session.commit()
 

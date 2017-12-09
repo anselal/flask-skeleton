@@ -14,6 +14,17 @@ class BaseConfig(object):
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    CELERY_BROKER_URL = 'redis://localhost:6379/0'
+    CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+    CELERY_INCLUDE = ['project.server.tasks']
+
+    MAIL_SERVER = ''
+    MAIL_PORT = 465
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = ''
+    MAIL_PASSWORD = ''
+    MAIL_DEFAULT_SENDER = ('', '')
+
 
 class DevelopmentConfig(BaseConfig):
     """Development configuration."""
