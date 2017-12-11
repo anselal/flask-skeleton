@@ -1,0 +1,27 @@
+{% macro button(value, type="default", id="", disabled=False, outline=False, size="normal", block=False, class="") %}
+    <button
+            {# Set id #}
+            {% if id %}id="{{ id }}"{% endif %}
+
+            {# Set class #}
+            class="btn {{ class }}
+
+            {# Set outline and style #}
+            {% if outline %}{{ " btn-outline-"+type }}{% else %}{{ " btn-"+type }}{% endif %}
+
+            {# Set button size #}
+            {% if size == 'sm' or size == 'lg' %}{{ " btn-"+size }}{% endif %}
+
+            {# Set block button #}
+            {% if block %} btn-block{% endif %}"
+
+            {# Set disabled #}
+            {% if disabled %}disabled{% endif %}
+
+            {# Set other options #}
+            {% for key, value in kwargs.items() %}
+                {{ key }}="{{ value }}"
+            {% endfor %}>
+        {{ value }}
+    </button>
+{% endmacro %}
