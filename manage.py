@@ -28,6 +28,10 @@ manager = Manager(app)
 # migrations
 manager.add_command('db', MigrateCommand)
 
+@manager.command
+def runserver():
+    from project.server import socketio
+    socketio.run(app)
 
 @manager.command
 def test():

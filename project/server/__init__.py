@@ -6,7 +6,10 @@ import os
 from flask import Flask, render_template
 
 from project.server.celery import make_celery
-from project.server.extensions import login_manager, toolbar, bootstrap, db, migrate, mail
+from project.server.extensions import login_manager, toolbar, bootstrap, db, migrate, mail, socketio
+
+import eventlet
+eventlet.monkey_patch()
 
 # instantiate the app
 app = Flask(
@@ -29,6 +32,7 @@ bootstrap.init_app(app)
 db.init_app(app)
 migrate.init_app(app, db)
 mail.init_app(app)
+socketio.init_app(app, message_queue='redis://', async_mode='eventlet')
 celery = make_celery(app)
 
 

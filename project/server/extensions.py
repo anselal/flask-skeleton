@@ -15,3 +15,6 @@ migrate = Migrate()
 
 from flask_mail import Mail
 mail = Mail()
+
+from flask_socketio import SocketIO
+socketio = SocketIO()
