@@ -62,4 +62,4 @@ class User(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return '<User {0}>'.format(self.email)
+        return f'<User {self.email}>'
