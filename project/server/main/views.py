@@ -48,7 +48,8 @@ def reset_password():
 
 @main_blueprint.route('/change_password', methods=['GET', 'POST'])
 def change_password():
-    print(request.args)
+    user = None
+
     if 'activation_key' in request.values and 'email' in request.values:
         activation_key = request.values['activation_key']
         email = request.values['email']
