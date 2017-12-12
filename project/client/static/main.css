@@ -1,3 +1,31 @@
 .site-content{
     padding: 75px;
 }
+
+.ajs-message{
+    border: 1px solid #d1edf6 !important;
+    border-radius: 0 !important;
+    background-color: #5bc0de;
+    color: black !important;
+}
+
+.ajs-success{
+    color: white !important;
+    background-color: #43ac6a !important;
+    border-color: #cae8d5 !important;
+    text-shadow: none !important;
+}
+
+.ajs-warning{
+    color: white !important;
+    background-color: #E99002 !important;
+    border-color: #f9e0b8 !important;
+    text-shadow: none !important;
+}
+
+.ajs-error{
+    color: white !important;
+    background-color: #F04124 !important;
+    border-color: #fbcac2 !important;
+    text-shadow: none !important;
+}
