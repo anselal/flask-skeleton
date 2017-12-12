@@ -4,31 +4,32 @@
 
 {% block content %}
 
-  <header class="content-header">
-    <h1>Please login</h1>
-  </header>
+    <header class="content-header">
+        <h1>Please login</h1>
+    </header>
 
-  <br>
-
-
-  <form class="form" role="form" method="post" action="">
-
-    {{ form.csrf_token }}
-    {{ form.hidden_tag() }}
-
-    <div class="col-lg-4 col-sm-4">
-
-      {% for field in form %}
-        {{ render_field(field) }}
-      {% endfor %}
+    <br>
 
 
-      {{ button('Sign in!', type="success") }}
-      <br><br>
-      <p>Need to <a href="{{ url_for('user.register') }}">Register</a>?</p>
-    </div>
+    <form class="form" role="form" method="post" action="">
 
-  </form>
+        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
+
+        <div class="col-lg-4 col-sm-4">
+
+            {% for field in form %}
+                {{ render_field(field) }}
+            {% endfor %}
+
+
+            {{ button('Sign in!', type="success") }}
+            <br><br>
+            <p>Need to <a href="{{ url_for('user.register') }}">Register</a>?</p>
+            <p>Have you lost password? <a href="{{ url_for('main.reset_password') }}">Reset your password</a>!</p>
+        </div>
+
+    </form>
 
 
 {% endblock content %}

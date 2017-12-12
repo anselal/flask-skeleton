@@ -3,9 +3,11 @@
 
 import datetime
 
+from uuid import uuid4
 from passlib.hash import pbkdf2_sha512
 
 from project.server import db
+from project.server.tasks import send_email
 
 
 class User(db.Model):
@@ -17,6 +19,7 @@ class User(db.Model):
     _password = db.Column('password', db.String(255), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now())
     admin = db.Column(db.Boolean, nullable=False, default=False)
+    activation_key = db.Column(db.String(50))
 
     def __init__(self, *args, **kwargs):
         if kwargs:
@@ -46,6 +49,17 @@ class User(db.Model):
 
     def is_password_valid(self, password):
         return pbkdf2_sha512.verify(password, self.password)
+
+    def reset_password(self):
+        self.activation_key = str(uuid4())
+        db.session.commit()
+
+        send_email.delay("Password reset", "reset_password", self.email, email=self.email, activation_key=self.activation_key)
+
+    def change_password(self, password):
+        self.password = password
+        self.activation_key = None
+        db.session.commit()
 
     def __repr__(self):
         return '<User {0}>'.format(self.email)
