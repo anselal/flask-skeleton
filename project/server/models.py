@@ -7,7 +7,6 @@ from uuid import uuid4
 from passlib.hash import pbkdf2_sha512
 
 from project.server import db
-from project.server.tasks import send_email
 
 
 class User(db.Model):
@@ -51,6 +50,7 @@ class User(db.Model):
         return pbkdf2_sha512.verify(password, self.password)
 
     def reset_password(self):
+        from project.server.tasks import send_email
         self.activation_key = str(uuid4())
         db.session.commit()
 

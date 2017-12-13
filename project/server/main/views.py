@@ -3,7 +3,7 @@ from flask import render_template, Blueprint, request, flash, abort, redirect, u
 from flask_socketio import emit
 
 from .forms import ResetPasswordForm, ChangePasswordForm
-from project.server import socketio, db
+from project.server import socketio
 from project.server.models import User
 
 main_blueprint = Blueprint('main', __name__,)
@@ -21,7 +21,7 @@ def test_connect():
 
 @main_blueprint.route('/')
 def home():
-    return render_template('main/home.html')
+    return render_template('main/home.html', date=date)
 
 
 @main_blueprint.route("/about")

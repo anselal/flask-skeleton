@@ -1,5 +1,6 @@
 import datetime
 
+
 def pretty_date(value, default="just now"):
     now = datetime.datetime.utcnow()
     diff = now - value
