@@ -21,7 +21,7 @@ def test_connect():
 
 @main_blueprint.route('/')
 def home():
-    return render_template('main/home.html', date=date)
+    return render_template('main/home.html')
 
 
 @main_blueprint.route("/about")
