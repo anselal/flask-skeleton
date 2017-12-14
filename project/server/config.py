@@ -7,6 +7,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class BaseConfig(object):
     """Base configuration."""
     SERVER_NAME = 'localhost:5000'
+    FLASK_APP = 'flasky.py'
     SECRET_KEY = 'my_precious'
     DEBUG = False
     BCRYPT_LOG_ROUNDS = 13

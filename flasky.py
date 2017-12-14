@@ -1,11 +1,12 @@
-# manage.py
-
-
 import unittest
 import coverage
 
-from flask_script import Manager
-from flask_migrate import Migrate, MigrateCommand
+from flask_migrate import Migrate
+
+from project.server import create_app, db
+
+app = create_app()
+migrate = Migrate(app, db)
 
 # code coverage
 COV = coverage.coverage(
@@ -19,24 +20,8 @@ COV = coverage.coverage(
 )
 COV.start()
 
-from project.server import create_app, db
 
-app = create_app()
-
-from project.server.models import User
-
-migrate = Migrate(app, db)
-manager = Manager(app)
-
-# migrations
-manager.add_command('db', MigrateCommand)
-
-@manager.command
-def runserver():
-    from project.server import socketio
-    socketio.run(app)
-
-@manager.command
+@app.cli.command()
 def test():
     """Runs the unit tests without test coverage."""
     tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
@@ -46,7 +31,7 @@ def test():
     return 1
 
 
-@manager.command
+@app.cli.command()
 def cov():
     """Runs the unit tests with coverage."""
     tests = unittest.TestLoader().discover('project/tests')
@@ -62,30 +47,22 @@ def cov():
     return 1
 
 
-@manager.command
+@app.cli.command()
 def create_db():
     """Creates the db tables."""
     db.create_all()
 
 
-@manager.command
+@app.cli.command()
 def drop_db():
     """Drops the db tables."""
     db.drop_all()
 
 
-@manager.command
+@app.cli.command()
 def create_admin():
     """Creates the admin user."""
+    from project.server.models import User
+
     db.session.add(User(email='ad@min.com', password='admin', admin=True))
     db.session.commit()
-
-
-@manager.command
-def create_data():
-    """Creates sample data."""
-    pass
-
-
-if __name__ == '__main__':
-    manager.run()

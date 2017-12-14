@@ -23,8 +23,8 @@ def create_app(app_name=__name__, config=None):
     )
 
     configure_app(app, config)
-    configure_blueprints(app)
     configure_extensions(app)
+    configure_blueprints(app)
     configure_template_filters(app)
     configure_error_handlers(app)
 
