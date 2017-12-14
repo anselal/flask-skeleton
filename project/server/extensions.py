@@ -18,3 +18,7 @@ mail = Mail()
 
 from flask_socketio import SocketIO
 socketio = SocketIO()
+
+from celery import Celery
+from project.server.config import DevelopmentConfig
+celery = Celery(__name__, broker=DevelopmentConfig.CELERY_BROKER_URL)

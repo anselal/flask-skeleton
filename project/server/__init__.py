@@ -7,7 +7,7 @@ import project.server.filters
 from flask import Flask, render_template
 
 from project.server.celery import make_celery
-from project.server.extensions import login_manager, toolbar, bootstrap, db, migrate, mail, socketio
+from project.server.extensions import login_manager, toolbar, bootstrap, db, migrate, mail, socketio, celery
 
 import eventlet
 eventlet.monkey_patch()
