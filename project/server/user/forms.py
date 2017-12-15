@@ -31,3 +31,8 @@ class RegisterForm(FlaskForm):
             EqualTo('password', message='Passwords must match.')
         ]
     )
+
+class ChangePassword(FlaskForm):
+    current_password = PasswordField('Current password', [DataRequired(message='Current password is required')])
+    new_password = PasswordField('New password', [DataRequired(message='New password is required')])
+    new_password_confirm = PasswordField('New password confirm', [DataRequired(message='New password confirm is required'), EqualTo('new_password', message='Password does not match')])

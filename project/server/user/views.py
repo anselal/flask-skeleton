@@ -3,11 +3,11 @@
 
 from flask import render_template, Blueprint, url_for, \
     redirect, flash, request
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 
 from project.server import db
 from project.server.models import User
-from project.server.user.forms import LoginForm, RegisterForm
+from project.server.user.forms import LoginForm, RegisterForm, ChangePassword
 
 
 user_blueprint = Blueprint('user', __name__,)
@@ -56,3 +56,25 @@ def logout():
 @login_required
 def members():
     return render_template('user/members.html')
+
+
+@user_blueprint.route('/account_settings')
+@login_required
+def account_settings():
+    return render_template('user/account_settings.html')
+
+
+@user_blueprint.route('/account_settings/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ChangePassword()
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            if not current_user.is_password_valid(form.current_password.data):
+                flash('Current password is not correct', 'danger')
+            else:
+                current_user.password = form.new_password.data
+                db.session.commit()
+                flash('Password has been changed', 'success')
+    return render_template('user/change_password.html', form=form)

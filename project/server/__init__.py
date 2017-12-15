@@ -89,7 +89,7 @@ def configure_template_filters(app):
 
     import inspect
 
-    # Register all filters in filters file
+    # Get all user defined functions and register all filters in filters file
     for f in filter(lambda f: inspect.isfunction(getattr(project.server.filters, f)), dir(project.server.filters)):
         app.jinja_env.filters[f] = getattr(project.server.filters, f)
 
