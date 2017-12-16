@@ -8,12 +8,19 @@ Flask starter project...
 
 ### Basics
 
-1. Create and activate a virtualenv
-1. Install the requirements
+Create virtual environment and install requirements via pipenv extension
+Enter everything without double slashes
 
-### Set Environment Variables
+```sh
+$ sudo -H pip3 install pipenv   // Install pipenv library
+$ cd xxx/flask-skeleton         // Go to the flask-skeleton folder
+$ pipenv install                // Create virtual environment and install all packages
+$ pipenv shell                  // Activate virtual environment
+$ export FLASK_APP=flasky.py    // Set environmnt variable
+$ flask run                     // Run flask server
+```
 
-Update *project/server/config.py*, and then run:
+### Change config settings
 
 ```sh
 $ export APP_SETTINGS="project.server.config.DevelopmentConfig"
@@ -28,37 +35,31 @@ $ export APP_SETTINGS="project.server.config.ProductionConfig"
 ### Create DB
 
 ```sh
-$ python manage.py create_db
-$ python manage.py db init
-$ python manage.py db migrate
-$ python manage.py create_admin
-$ python manage.py create_data
+$ flask create_db
+$ flask db init
+$ flask db migrate
+$ flask create_admin
+$ flask create_data
 ```
 
 ### Run the Application
 
 ```sh
-$ python manage.py runserver
+$ flask run
 ```
 
 Access the application at the address [http://localhost:5000/](http://localhost:5000/)
-
-> Want to specify a different port?
-
-> ```sh
-> $ python manage.py runserver -h 0.0.0.0 -p 8080
-> ```
 
 ### Testing
 
 Without coverage:
 
 ```sh
-$ python manage.py test
+$ flask test
 ```
 
 With coverage:
 
 ```sh
-$ python manage.py cov
+$ flask cov
 ```
